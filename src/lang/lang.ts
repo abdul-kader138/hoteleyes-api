@@ -7,7 +7,7 @@ const Lang = {
   invalid_password: 'Invalid email or password',
   logout_swagger_api: 'Clears the authentication cookie.',
   user_credential: 'User credentials',
-  invalid_expire_token:'Invalid or expired token',
+  invalid_expire_token: 'Invalid or expired token',
   login_successful_message: 'Login successful.',
   email_exist_message: 'User with this email already exists.',
   verification_email_subject: 'Verify Your Email - Ororo',
@@ -28,9 +28,11 @@ const Lang = {
   password_updated_failed_message: 'Password reset operation failed.',
   subscription_exist_message: 'You are already subscribed.',
   confirm_your_subscription: 'Confirm your subscription',
+  confirm_your_contact: 'Thank You for Contacting...',
   unknown_error: 'Something went wrong.Please contact with adminstrator',
   email_not_verify: 'Please verify your email before logging in.',
-  subscription_email_sent_message: 'Confirmation email sent. Please check your inbox.',
+  subscription_email_sent_message:
+    'Confirmation email sent. Please check your inbox.',
 };
 
 export default Lang;
