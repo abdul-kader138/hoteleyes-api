@@ -12,28 +12,48 @@ model UserProvider {
   id           Int      @id @default(autoincrement())
   user_id      Int
   provider     String   @db.VarChar(50)
-  provider_id  String   @db.VarChar(255) 
+  provider_id  String   @db.VarChar(255)
   created_at   DateTime @default(now())
 
   user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  @@unique([provider, provider_id]) 
+
+  @@unique([provider, provider_id])
 }
 
 model User {
-  id                 Int              @id @default(autoincrement())
-  email              String           @unique @db.VarChar(100)
-  first_name         String           @db.VarChar(50)
-  last_name          String           @db.VarChar(50)
-  password           String           @db.VarChar(200)
-  verification_token String?          @unique @db.VarChar(100)
-  is_verified        Boolean?         @default(false)
-  about_me           String?          @db.Text
-  photo_id           Int?             @unique
-  photo              Photos?          @relation(fields: [photo_id], references: [photo_id])
-  created_at         DateTime         @default(now())
-  reset_password_token String?        @unique @db.VarChar(255)
+  id                     Int              @id @default(autoincrement())
+  email                  String           @unique @db.VarChar(100)
+  first_name             String           @db.VarChar(50)
+  last_name              String           @db.VarChar(50)
+  password               String           @db.VarChar(200)
+  verification_token     String?          @unique @db.VarChar(100)
+  is_verified            Boolean?         @default(false)
+  address                String?          @db.Text
+  photo_id               Int?             @unique
+  photo                  Photos?          @relation(fields: [photo_id], references: [photo_id])
+  created_at             DateTime         @default(now())
+  reset_password_token   String?          @unique @db.VarChar(255)
   reset_password_expires DateTime?
-  userProviders      UserProvider[]
+  userProviders          UserProvider[]
+
+  gender                 String?          @db.VarChar(20)
+  date_of_birth          DateTime?
+  phone_number           String?          @db.VarChar(20)
+  hotel_name             String?          @db.VarChar(100)
+  is_admin_verified      Boolean?         @default(false)
+
+  // New relation to Country
+  country_id             Int?
+  country                Country?         @relation(fields: [country_id], references: [id])
+}
+
+model Country {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @db.VarChar(100)
+  iso_code    String   @unique @db.Char(2)
+  phone_code  String   @db.VarChar(10)
+
+  users       User[]
 }
 
 model Photos {
@@ -46,37 +66,35 @@ model Photos {
   created_on DateTime @default(now()) @db.Timestamp(6)
   updated_on DateTime @default(now()) @db.Timestamp(6)
 
-  user User?
-  article Article?
+  user       User?
+  article    Article?
 }
-
 
 model Article {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
   description String   @db.Text
   content     String   @db.Text
-  video_url   String?  @db.VarChar(255) 
-  photo_id    Int?     @unique 
+  video_url   String?  @db.VarChar(255)
+  photo_id    Int?     @unique
   created_at  DateTime @default(now())
   photo       Photos?  @relation(fields: [photo_id], references: [photo_id])
 }
 
 model NewsletterSubscriber {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique @db.VarChar(100)       
-  token        String?  @unique @db.VarChar(100)
-  is_confirmed  Boolean  @default(false)
-  confirmed_at  DateTime?
-  created_at    DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  email          String   @unique @db.VarChar(100)
+  token          String?  @unique @db.VarChar(100)
+  is_confirmed   Boolean  @default(false)
+  confirmed_at   DateTime?
+  created_at     DateTime @default(now())
 }
 
 model ContactMessage {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  subject   String
-  message   String
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  subject    String
+  message    String
   created_at DateTime @default(now())
 }
-

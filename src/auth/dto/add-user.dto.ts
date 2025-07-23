@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsEmail, IsBoolean } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UserDto {
   @IsOptional()
@@ -26,7 +26,7 @@ export class UserDto {
 
   @IsOptional()
   @IsString()
-  about_me?: string;
+  address?: string;
 
   @IsOptional()
   created_at?: Date;

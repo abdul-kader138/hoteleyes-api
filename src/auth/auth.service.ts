@@ -52,7 +52,7 @@ export class AuthService {
       email: user.email,
       first_name: user.first_name,
       last_name: user.last_name,
-      about_me: user.about_me,
+      address: user.address,
       photo_id: user.photo_id,
     };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
@@ -252,7 +252,7 @@ export class AuthService {
         first_name: editUserDto?.first_name,
         last_name: editUserDto?.last_name,
         email: editUserDto?.email,
-        about_me: editUserDto?.about_me,
+        address: editUserDto?.address,
       },
     });
   }

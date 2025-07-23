@@ -33,4 +33,16 @@ export class ContactService {
     );
     return { message: Lang.subscription_email_sent_message };
   }
+
+  async searchCountries(query: string) {
+    return this.prisma.country.findMany({
+      where: {
+        name: {
+          contains: query,
+          //mode: 'insensitive', // case-insensitive search
+        },
+      },
+      orderBy: { name: 'asc' },
+    });
+  }
 }

@@ -129,7 +129,7 @@ export class AuthController {
           first_name: updatedUser?.first_name,
           last_name: updatedUser?.last_name,
           email: updatedUser?.email,
-          about_me: updatedUser?.about_me,
+          address: updatedUser?.address,
           photo_id: updatedUser?.photo_id,
         },
       });
@@ -155,7 +155,7 @@ export class AuthController {
           first_name: updatedUser?.first_name,
           last_name: updatedUser?.last_name,
           email: updatedUser?.email,
-          about_me: updatedUser?.about_me,
+          address: updatedUser?.address,
           photo_id: updatedUser?.photo_id,
         },
       });

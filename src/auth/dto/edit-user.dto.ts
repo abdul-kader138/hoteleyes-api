@@ -12,5 +12,5 @@ export class EditUserDto {
 
   @IsOptional()
   @IsString()
-  about_me?: string;
+  address?: string;
 }

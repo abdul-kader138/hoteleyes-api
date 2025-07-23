@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from '../../../src/auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { MailerService } from '../../../src/mailer/mailer.service';
-import { PrismaService } from '../../../prisma/prisma.service'; // Custom Prisma wrapper
-import * as bcrypt from 'bcryptjs';
-import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
+import * as bcrypt from 'bcryptjs';
+import { DeepMockProxy } from 'jest-mock-extended';
+import { PrismaService } from '../../../prisma/prisma.service'; // Custom Prisma wrapper
+import { AuthService } from '../../../src/auth/auth.service';
+import { MailerService } from '../../../src/mailer/mailer.service';
 
 // Static mock user object for all test scenarios
 const mockUserObj = {
@@ -17,7 +17,7 @@ const mockUserObj = {
   password: bcrypt.hashSync('1234', 10),
   verification_token: null,
   is_verified: true,
-  about_me: null,
+  address: null,
   photo_id: null,
   created_at: new Date(),
   reset_password_token: null,
@@ -78,13 +78,17 @@ describe('AuthService', () => {
   describe('validateUser', () => {
     it('should throw if user not found', async () => {
       prisma.user.findUnique.mockResolvedValue(null);
-      await expect(service.validateUser('test@example.com', '1234')).rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.validateUser('test@example.com', '1234'),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw if password does not match', async () => {
       prisma.user.findUnique.mockResolvedValue(mockUserObj);
       jest.spyOn(bcrypt, 'compareSync').mockReturnValue(false);
-      await expect(service.validateUser(mockUserObj.email, 'wrongpass')).rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.validateUser(mockUserObj.email, 'wrongpass'),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should return user if valid', async () => {
@@ -100,7 +104,12 @@ describe('AuthService', () => {
     it('should throw if email already exists', async () => {
       prisma.user.findUnique.mockResolvedValue(mockUserObj);
       await expect(
-        service.register({ email: 'exists@example.com', password: '1234', first_name: 'John', last_name: 'Doe' })
+        service.register({
+          email: 'exists@example.com',
+          password: '1234',
+          first_name: 'John',
+          last_name: 'Doe',
+        }),
       ).rejects.toThrow();
     });
 
@@ -147,7 +156,9 @@ describe('AuthService', () => {
     it('should return user by ID', async () => {
       prisma.user.findFirst.mockResolvedValue({ ...mockUserObj });
       const result = await service.getUserById(1);
-      expect(result).toEqual(expect.objectContaining({ email: mockUserObj.email }));
+      expect(result).toEqual(
+        expect.objectContaining({ email: mockUserObj.email }),
+      );
     });
 
     it('should throw if user not found', async () => {
@@ -160,7 +171,9 @@ describe('AuthService', () => {
   describe('resetPassword', () => {
     it('should throw if token is invalid or expired', async () => {
       prisma.user.findFirst.mockResolvedValue(null);
-      await expect(service.resetPassword('badtoken', 'newpass')).rejects.toThrow();
+      await expect(
+        service.resetPassword('badtoken', 'newpass'),
+      ).rejects.toThrow();
     });
 
     it('should update password if token is valid', async () => {
@@ -197,8 +210,16 @@ describe('AuthService', () => {
 
       const res = { cookie: jest.fn() } as any;
 
-      await service.OAuthLogin({ id: '123', username: 'steamuser' }, 'steam', res);
-      expect(res.cookie).toHaveBeenCalledWith('jwt', expect.any(String), expect.any(Object));
+      await service.OAuthLogin(
+        { id: '123', username: 'steamuser' },
+        'steam',
+        res,
+      );
+      expect(res.cookie).toHaveBeenCalledWith(
+        'jwt',
+        expect.any(String),
+        expect.any(Object),
+      );
     });
   });
 });
