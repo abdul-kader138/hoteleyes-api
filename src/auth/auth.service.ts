@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -54,6 +55,11 @@ export class AuthService {
       last_name: user.last_name,
       address: user.address,
       photo_id: user.photo_id,
+      phone_number: user?.phone_number,
+      gender: user?.gender,
+      date_of_birth: user?.date_of_birth,
+      hotel_name: user?.hotel_name,
+      country: user?.country?.name,
     };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
 
@@ -64,6 +70,9 @@ export class AuthService {
       maxAge: 1000 * 60 * 60,
     });
 
+    Logger.log(user);
+    Logger.log(payload);
+
     return res.json({
       message: Lang.login_successful_message,
       user: {
@@ -71,6 +80,11 @@ export class AuthService {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
+         phone_number: user.phone_number,
+      gender: user.gender,
+      date_of_birth: user.date_of_birth,
+      hotel_name: user.hotel_name,
+      country: user?.country?.name,
       },
     });
   }
@@ -253,6 +267,11 @@ export class AuthService {
         last_name: editUserDto?.last_name,
         email: editUserDto?.email,
         address: editUserDto?.address,
+        phone_number: editUserDto.phone_number,
+      gender: editUserDto.gender,
+      date_of_birth: editUserDto.date_of_birth,
+      hotel_name: editUserDto.hotel_name,
+      country_id: editUserDto.country_id,
       },
     });
   }
@@ -276,7 +295,7 @@ export class AuthService {
   async getUserById(id: number) {
     const user = await this.prisma.user.findFirst({
       where: { id },
-      include: { photo: true },
+      include: { photo: true,country:true },
     });
 
     if (!user) {

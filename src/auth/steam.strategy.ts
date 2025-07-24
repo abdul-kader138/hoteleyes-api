@@ -5,10 +5,6 @@ import { Strategy } from 'passport-steam';
 @Injectable()
 export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
   constructor() {
-    Logger.log('🚀 Initializing SteamStrategy');
-    Logger.log('STEAM_API_KEY:', process.env.STEAM_API_KEY);
-    Logger.log('STEAM_RETURN_URL:', process.env.STEAM_RETURN_URL);
-    Logger.log('STEAM_REALM:', process.env.STEAM_REALM);
 
     super({
       apiKey: process.env.STEAM_API_KEY!,
