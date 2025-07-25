@@ -408,7 +408,7 @@ export class AuthService {
 
     // Build WHERE clause safely
     const whereClause: any = {
-      user_id: userId,
+     /*  id: userId, */
     };
 
     if (searchText && searchText.trim()) {
@@ -423,6 +423,7 @@ export class AuthService {
             { email: { contains: cleanedSearch, mode: 'insensitive' } },
             { phone_number: { contains: cleanedSearch, mode: 'insensitive' } },
             { date_of_birth: { contains: cleanedSearch, mode: 'insensitive' } },
+            { hotel_name: { contains: cleanedSearch, mode: 'insensitive' } },
           ],
         },
       ];

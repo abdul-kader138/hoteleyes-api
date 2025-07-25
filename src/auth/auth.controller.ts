@@ -285,13 +285,13 @@ export class AuthController {
     try {
       if (req.user) {
         const userId = req.user['id'];
-        const ledger = await this.authService.getAllUser(
+        const user = await this.authService.getAllUser(
           userId,
           page,
           perPage,
           searchText,
         );
-        return { ledger };
+        return user;
       }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
