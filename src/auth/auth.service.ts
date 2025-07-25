@@ -80,11 +80,11 @@ export class AuthService {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-         phone_number: user.phone_number,
-      gender: user.gender,
-      date_of_birth: user.date_of_birth,
-      hotel_name: user.hotel_name,
-      country: user?.country?.name,
+        phone_number: user.phone_number,
+        gender: user.gender,
+        date_of_birth: user.date_of_birth,
+        hotel_name: user.hotel_name,
+        country: user?.country?.name,
       },
     });
   }
@@ -268,10 +268,10 @@ export class AuthService {
         email: editUserDto?.email,
         address: editUserDto?.address,
         phone_number: editUserDto.phone_number,
-      gender: editUserDto.gender,
-      date_of_birth: editUserDto.date_of_birth,
-      hotel_name: editUserDto.hotel_name,
-      country_id: editUserDto.country_id,
+        gender: editUserDto.gender,
+        date_of_birth: editUserDto.date_of_birth,
+        hotel_name: editUserDto.hotel_name,
+        country_id: editUserDto.country_id,
       },
     });
   }
@@ -295,7 +295,7 @@ export class AuthService {
   async getUserById(id: number) {
     const user = await this.prisma.user.findFirst({
       where: { id },
-      include: { photo: true,country:true },
+      include: { photo: true, country: true },
     });
 
     if (!user) {
@@ -383,5 +383,60 @@ export class AuthService {
     } else {
       throw new Error(`Invalid email type: ${emailType}`);
     }
+  }
+
+  async getCountryById(id: number) {
+    const coountry = await this.prisma.country.findFirst({
+      where: { id },
+    });
+
+    if (!coountry) {
+      throw new NotFoundException(Lang.country_not_found_message);
+    }
+
+    return coountry;
+  }
+
+  async getAllUser(
+    userId: number,
+    page: number,
+    perPage: number,
+    searchText: string,
+  ) {
+    const pageNumber = Number(page) || 1;
+    const perPageNumber = Number(perPage) || 10;
+
+    // Build WHERE clause safely
+    const whereClause: any = {
+      user_id: userId,
+    };
+
+    if (searchText && searchText.trim()) {
+      const cleanedSearch = searchText.trim();
+      whereClause.AND = [
+        {
+          OR: [
+            { first_name: { contains: cleanedSearch, mode: 'insensitive' } },
+            { last_name: { contains: cleanedSearch, mode: 'insensitive' } },
+            { gender: { contains: cleanedSearch, mode: 'insensitive' } },
+            { address: { contains: cleanedSearch, mode: 'insensitive' } },
+            { email: { contains: cleanedSearch, mode: 'insensitive' } },
+            { phone_number: { contains: cleanedSearch, mode: 'insensitive' } },
+            { date_of_birth: { contains: cleanedSearch, mode: 'insensitive' } },
+          ],
+        },
+      ];
+    }
+
+    const user = await this.prisma.user.findMany({
+      where: whereClause,
+      skip: (pageNumber - 1) * perPageNumber,
+      take: perPageNumber,
+      orderBy: { created_at: 'desc' },
+    });
+
+    const totalCount = await this.prisma.user.count({ where: whereClause });
+
+    return { user, totalCount };
   }
 }

@@ -122,7 +122,13 @@ export class AuthController {
   @Put('edit')
   async edit(@Body() editUserDto: EditUserDto, @Res() res: Response) {
     try {
+      let country: any = null;
       const updatedUser = await this.authService.editUser(editUserDto);
+      if (updatedUser?.country_id)
+        country = await this.authService.getCountryById(
+          updatedUser?.country_id,
+        );
+      const countryObj = country ? { ...country } : {};
       return res.json({
         message: Lang.user_updated_successful_message,
         user: {
@@ -131,6 +137,12 @@ export class AuthController {
           email: updatedUser?.email,
           address: updatedUser?.address,
           photo_id: updatedUser?.photo_id,
+          gender: updatedUser?.gender,
+          date_of_birth: updatedUser?.date_of_birth,
+          phone_number: updatedUser?.phone_number,
+          hotel_name: updatedUser?.hotel_name,
+          country_id: updatedUser?.country_id,
+          country: countryObj,
         },
       });
     } catch (error) {
@@ -259,6 +271,30 @@ export class AuthController {
     } catch (error) {
       Logger.error('Steam Login Callback Error:', error.stack || error.message);
       return res.status(500).send('Steam login failed: ' + error.message);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('user-list')
+  async getUserAllUser(
+    @Req() req: Request,
+    @Query('page') page: number = 1,
+    @Query('perPage') perPage: number = 10,
+    @Query('searchText') searchText: string = '',
+  ) {
+    try {
+      if (req.user) {
+        const userId = req.user['id'];
+        const ledger = await this.authService.getAllUser(
+          userId,
+          page,
+          perPage,
+          searchText,
+        );
+        return { ledger };
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

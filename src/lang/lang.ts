@@ -20,6 +20,7 @@ const Lang = {
   invalid_token: 'Invalid or missing token',
   password_reset_email: 'Password reset email sent',
   user_not_found_message: 'User not found',
+  country_not_found_message: 'Country not found',
   article_not_found_message: 'Article not found',
   account_not_found_message: 'No account found with that email',
   photo_not_found_message: 'Unable to find photo with serial:',
