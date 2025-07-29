@@ -63,7 +63,7 @@ export class Helper {
       ${message}
     </blockquote>
 
-    <p style="margin-top: 24px;">A member of our team will review your request and get back to you as soon as possible. If you need urgent assistance, feel free to reply to this email or reach out directly to <a href="mailto:sales@hoteleyes.com" style="color: #D90479;">info@company.com</a>.</p>
+    <p style="margin-top: 24px;">A member of our team will review your request and get back to you as soon as possible. If you need urgent assistance, feel free to reply to this email or reach out directly to <a href="mailto:sales@hoteleyes.com" style="color: #D90479;">sales@hoteleyes.com</a>.</p>
 
     <p style="margin-top: 40px; font-size: 13px; color: #888;">
       You are receiving this email because you submitted a contact request on our website.<br/>
