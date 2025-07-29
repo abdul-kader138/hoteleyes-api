@@ -1,10 +1,12 @@
+import * as bcrypt from 'bcryptjs';
 import { PrismaService } from './prisma.service';
+
 const prisma = new PrismaService();
 
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // 📌 Seed Country Table
+  // 🌍 Seed Countries
   const countries = [
     { name: 'Bangladesh', iso_code: 'BD', phone_code: '+880' },
     { name: 'United States', iso_code: 'US', phone_code: '+1' },
@@ -13,6 +15,7 @@ async function main() {
     { name: 'Canada', iso_code: 'CA', phone_code: '+1' },
     { name: 'Germany', iso_code: 'DE', phone_code: '+49' },
     { name: 'France', iso_code: 'FR', phone_code: '+33' },
+    { name: 'Netherlands', iso_code: 'NL', phone_code: '+31' },
     { name: 'Italy', iso_code: 'IT', phone_code: '+39' },
     { name: 'Australia', iso_code: 'AU', phone_code: '+61' },
     { name: 'Saudi Arabia', iso_code: 'SA', phone_code: '+966' },
@@ -26,6 +29,38 @@ async function main() {
     });
   }
   console.log('✅ Countries seeded successfully!');
+
+  // 🔐 Seed Roles
+  const adminRole = await prisma.role.upsert({
+    where: { role_name: 'admin' },
+    update: {},
+    create: { role_name: 'admin' },
+  });
+  console.log('✅ Role "admin" seeded successfully!');
+
+  // 👤 Seed Admin User
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: 'admin@example.com' },
+  });
+
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash('admin', 10);
+
+    await prisma.user.create({
+      data: {
+        first_name: 'Admin',
+        last_name: 'User',
+        email: 'admin@admin.com',
+        password: hashedPassword,
+        is_verified: true,
+        is_admin_verified: true,
+        role_id: adminRole.id,
+      },
+    });
+    console.log('✅ Admin user created successfully!');
+  } else {
+    console.log('⚠️ Admin user already exists. Skipping creation...');
+  }
 
   // 📷 Seed Photos
   const existingPhotos = await prisma.photos.findMany();

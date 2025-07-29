@@ -2,16 +2,16 @@ export class Helper {
   verification_email_body = (link: string, username: string) => {
     return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-      <h2 style="color: #D90479 ;">🎮 Verify Your Email for Ororo Gaming</h2>
+      <h2 style="color: #D90479 ;">🎮 Verify Your Email for Hotel Eyes</h2>
       <p>Hi <strong>${username}</strong>,</p>
 
-      <p>Welcome to <strong>Ororo Gaming</strong>! To complete your registration and unlock all the fun, please verify your email address by clicking the button below.</p>
+      <p>Welcome to <strong>Hotel Eyes</strong>! To complete your registration and unlock all the features, please verify your email address by clicking the button below.</p>
 
       <div style="text-align: center; margin: 30px 0;">
         <a href="${link}" style="background-color: #D90479; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">Verify Email</a>
       </div>
 
-      <p>If you didn’t sign up for Ororo Gaming, you can safely ignore this email.</p>
+      <p>If you didn’t sign up for Hotel Eyes, you can safely ignore this email.</p>
 
       <p style="margin-top: 40px; font-size: 12px; color: #888;">Need help? Reach out to our support team for assistance.</p>
     </div>
@@ -21,10 +21,10 @@ export class Helper {
   reset_password_email_body = (link: string, username: string) => {
     return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-      <h2 style="color: #D90479;">🔐 Reset Your Ororo Gaming Password</h2>
+      <h2 style="color: #D90479;">🔐 Reset Your Hotel Eyes Password</h2>
       <p>Hi <strong>${username}</strong>,</p>
 
-      <p>We received a request to reset your password for your Ororo Gaming account. If this was you, click the button below to reset your password:</p>
+      <p>We received a request to reset your password for your Hotel Eyes account. If this was you, click the button below to reset your password:</p>
 
       <div style="text-align: center; margin: 30px 0;">
         <a href="${link}" style="background-color: #D90479; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">Reset Password</a>
@@ -39,7 +39,7 @@ export class Helper {
 
   subscription_email_body = (link: string) => {
     return `
-        <p>Thank you for subscribing to Ororo Newsletter!</p>
+        <p>Thank you for subscribing to Hotel Eyes Newsletter!</p>
         <p><a href="${link}">Click here to confirm</a></p>
         <p>If you don't want to reset password, you can ignore this email.</p>`;
   };
@@ -63,7 +63,7 @@ export class Helper {
       ${message}
     </blockquote>
 
-    <p style="margin-top: 24px;">A member of our team will review your request and get back to you as soon as possible. If you need urgent assistance, feel free to reply to this email or reach out directly to <a href="mailto:sales@ororo.games" style="color: #D90479;">info@company.com</a>.</p>
+    <p style="margin-top: 24px;">A member of our team will review your request and get back to you as soon as possible. If you need urgent assistance, feel free to reply to this email or reach out directly to <a href="mailto:sales@hoteleyes.com" style="color: #D90479;">info@company.com</a>.</p>
 
     <p style="margin-top: 40px; font-size: 13px; color: #888;">
       You are receiving this email because you submitted a contact request on our website.<br/>

@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -60,6 +59,7 @@ export class AuthService {
       date_of_birth: user?.date_of_birth,
       hotel_name: user?.hotel_name,
       country: user?.country?.name,
+      role_id: user?.role_id,
     };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
 
@@ -69,9 +69,6 @@ export class AuthService {
       sameSite: 'lax',
       maxAge: 1000 * 60 * 60,
     });
-
-    Logger.log(user);
-    Logger.log(payload);
 
     return res.json({
       message: Lang.login_successful_message,
@@ -85,6 +82,7 @@ export class AuthService {
         date_of_birth: user.date_of_birth,
         hotel_name: user.hotel_name,
         country: user?.country?.name,
+        role_id: user?.role_id,
       },
     });
   }
@@ -408,7 +406,7 @@ export class AuthService {
 
     // Build WHERE clause safely
     const whereClause: any = {
-     /*  id: userId, */
+      /*  id: userId, */
     };
 
     if (searchText && searchText.trim()) {

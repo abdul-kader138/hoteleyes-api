@@ -10,8 +10,8 @@ const Lang = {
   invalid_expire_token: 'Invalid or expired token',
   login_successful_message: 'Login successful.',
   email_exist_message: 'User with this email already exists.',
-  verification_email_subject: 'Verify Your Email - Ororo',
-  reset_email_subject: 'Reset Your password for Ororo',
+  verification_email_subject: 'Verify Your Email - Hotel Eyes',
+  reset_email_subject: 'Reset Your password for Hotel Eyes',
   registration_successful_message: 'User registered successfully.',
   invalid_token_message: 'Invalid or expired verification token.',
   verification_success_message:
